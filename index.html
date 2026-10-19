@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Abundant Gathering Table</title>
+    <style>
+        :root {
+            --purple: #3A1E4A;
+            --gold: #D4AF37;
+            --light-gold: #F3E5AB;
+            --white: #FFFFFF;
+            --black: #121212;
+        }
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        header {
+            background-color: var(--purple);
+            border-bottom: 3px solid var(--gold);
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            color: var(--light-gold);
+            margin: 0;
+            font-size: 24px;
+        }
+        .lang-toggle-container {
+            text-align: right;
+            padding: 10px 20px;
+        }
+        .btn {
+            background-color: var(--purple);
+            color: var(--light-gold);
+            border: 2px solid var(--gold);
+            padding: 8px 16px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 4px;
+            margin: 5px;
+        }
+        main {
+            flex: 1;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .control-panel {
+            background-color: #1a1a1a;
+            border: 1px solid var(--purple);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .card {
+            background-color: #1a1a1a;
+            border: 1px solid var(--purple);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .card h2 {
+            color: var(--gold);
+            margin-top: 0;
+            border-bottom: 1px solid var(--purple);
+            padding-bottom: 5px;
+        }
+        .scripture-text {
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 15px 0;
+            white-space: pre-line;
+        }
+        .disclaimer-box {
+            background-color: #221122;
+            border: 1px dashed var(--gold);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 30px;
+            font-size: 14px;
+            color: var(--light-gold);
+            text-align: center;
+        }
+        footer {
+            background-color: var(--purple);
+            border-top: 3px solid var(--gold);
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            color: var(--light-gold);
+            margin-top: auto;
+        }
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1 id="header-title">The Abundant Gathering Table</h1>
+    </header>
+
+    <div class="lang-toggle-container">
+        <button class="btn" id="lang-btn" onclick="toggleLanguage()">Español</button>
+    </div>
+
+    <main>
+        <div class="nav-tabs">
+            <button class="btn" onclick="showSection('scriptures')">Scriptures</button>
+            <button class="btn" onclick="showSection('prayer')">Prayer Room</button>
+            <button class="btn" onclick="showSection('radio')">Praise Radio</button>
+        </div>
+
+        <div class="control-panel">
+            <span id="music-label" style="font-weight: bold;">Background Instrumental Music:</span>
+            <button class="btn" id="music-btn" onclick="toggleMusic()">Play</button>
+        </div>
+
+        <div id="section-scriptures" class="route-section">
+            <div style="margin-bottom: 15px;">
+                <button class="btn" onclick="loadBook('kjv')">KJV Bible</button>
+                <button class="btn" onclick="loadBook('enoch')">Book of Enoch</button>
+                <button class="btn" onclick="loadBook('jubilees')">Book of Jubilees</button>
+            </div>
+
+            <div class="card">
+                <h2 id="book-title">Holy Bible (King James Version)</h2>
+                <button class="btn" id="read-btn" onclick="readAloud()">🔊 Read Aloud</button>
+                <div class="scripture-text" id="scripture-content">
+                    Genesis 1:1 - In the beginning God created the heaven and the earth.
+                    Genesis 1:2 - And the earth was without form, and void; and darkness was upon the face of the deep. And the Spirit of God moved upon the face of the waters.
+                    Genesis 1:3 - And God said, Let there be light: and there was light.
+                </div>
+            </div>
+
+            <div class="disclaimer-box" id="disclaimer-text">
+                Disclaimer: Focused on operational historical scriptural truth and guidelines.
+            </div>
+        </div>
+
+        <div id="section-prayer" class="route-section hidden">
+            <div class="card">
+                <h2 id="prayer-title">Prayer Room</h2>
+                <div id="notify-box" style="text-align: center; padding: 10px;">
+                    <p id="notify-prompt">Would you like to receive a daily prayer notification?</p>
+                    <button class="btn" onclick="setNotification(true)">Allow</button>
+                    <button class="btn" onclick="setNotification(false)">Decline</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="section-radio" class="route-section hidden">
+            <div class="card">
+                <h2 id="radio-title">Live Praise Radio Hub</h2>
+                <p id="radio-prompt">Select a Christian Praise genre stream:</p>
+                <select id="genre-select" style="padding: 8px; background: #222; color: #fff; border: 1px solid var(--gold); width: 100%;">
+                    <option>Soft Instrumental Praise</option>
+                    <option>Uplifting Melodies</option>
+                    <option>Traditional Worship</option>
+                </select>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <span id="footer-title">Narrow Way Ministries</span>
+    </footer>
+
+    <script>
+        let currentLang = 'en';
+        let musicPlaying = false;
+        let bgAudio = null;
+        let activeBook = 'kjv';
+
+        const translations = {
+            en: {
+                header: "The Abundant Gathering Table",
+                footer: "Narrow Way Ministries",
+                musicLabel: "Background Instrumental Music:",
+                play: "Play", stop: "Stop",
+                read: "🔊 Read Aloud",
+                disclaimer: "Disclaimer: Focused on operational historical scriptural truth and guidelines.",
+                notifyPrompt: "Would you like to receive a daily prayer notification?",
+                radioTitle: "Live Praise Radio Hub",
+                radioPrompt: "Select a Christian Praise genre stream:",
+                prayerTitle: "Prayer Room"
+            },
+            es: {
+                header: "La Mesa de la Abundante Reunión",
+                footer: "Ministerios del Camino Estrecho",
+                musicLabel: "Música Instrumental de Fondo:",
+                play: "Reproducir", stop: "Detener",
+                read: "🔊 Leer en Voz Alta",
+                disclaimer: "Descargo de responsabilidad: Centrado en las pautas y la verdad de las escrituras históricas operacionales.",
+                notifyPrompt: "¿Le gustaría recibir una notificación de oración diaria?",
+                radioTitle: "Centro de Radio de Alabanza en Vivo",
+                radioPrompt: "Seleccione una transmisión de género de alabanza cristiana:",
+                prayerTitle: "Sala de Oración"
+            }
+        };
+
+        const booksContent = {
+            kjv: {
+                en: "Genesis 1:1 - In the beginning God created the heaven and the earth.\nGenesis 1:2 - And the earth was without form, and void; and darkness was upon the face of the deep.\nGenesis 1:3 - And God said, Let there be light: and there was light.",
+                es: "Génesis 1:1 - En el principio creó Dios los cielos y la tierra.\nGénesis 1:2 - Y la tierra estaba desordenada y vacía, y las tinieblas estaban sobre la faz del abismo.\nGénesis 1:3 - Y dijo Dios: Sea la luz; y fue la luz.",
+                titleEn: "Holy Bible (King James Version)", titleEs: "Santa Biblia (Versión King James)"
+            },
+            enoch: {
+                en: "Chapter 1:1 - The words of the blessing of Enoch, wherewith he blessed the elect and righteous, who will be living in the day of tribulation when all the wicked and godless are to be removed.",
+                es: "Capítulo 1:1 - Palabras de la bendición de Enoc, con las que bendijo a los elegidos y justos que vivirán en el día de la tribulación, cuando serán rechazados todos los impíos y perversos.",
+                titleEn: "The Book of Enoch", titleEs: "El Libro de Enoc"
+            },
+            jubilees: {
+                en: "Chapter 1:1 - And it came to pass in the first year of the exodus of the children of Israel out of Egypt, in the third month, on the sixteenth day of the month, that the Lord spake to Moses.",
+                es: "Capítulo 1:1 - Sucedió en el primer año del éxodo de los hijos de Israel de Egipto, en el tercer mes, el día dieciséis del mes, que el Señor habló a Moisés.",
+                titleEn: "The Book of Jubilees", titleEs: "El Libro de los Jubileos"
+            }
+        };
+
+        function toggleLanguage() {
+            currentLang = currentLang === 'en' ? 'es' : 'en';
